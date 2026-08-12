@@ -19,8 +19,21 @@ export function NotificationProvider({ children }: { children: React.ReactNode }
 
       ws.current = new WebSocket(wsUrl);
 
+      ws.current.onopen = () => {
+        console.log("🟢 WebSocket Connected:", wsUrl);
+      };
+
+      ws.current.onclose = (e) => {
+        console.log("🔴 WebSocket Disconnected:", e.code, e.reason);
+      };
+
+      ws.current.onerror = (err) => {
+        console.error("🔴 WebSocket Error:", err);
+      };
+
       ws.current.onmessage = (event) => {
         try {
+          console.log("📩 Received WebSocket message:", event.data);
           const data = JSON.parse(event.data);
           if (data.message) {
             toast.success(data.message, {

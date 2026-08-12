@@ -46,6 +46,8 @@ export function NotificationProvider({ children }: { children: React.ReactNode }
                 padding: '16px',
               },
             });
+            // Dispatch a global event so dashboards know to refresh their data
+            window.dispatchEvent(new Event('refreshAppointments'));
           }
         } catch (e) {
           console.error("Error parsing notification:", e);

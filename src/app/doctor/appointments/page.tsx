@@ -36,6 +36,10 @@ function DoctorAppointmentsContent() {
 
   useEffect(() => {
     fetchAppointments();
+    
+    // Listen for WebSocket notifications to instantly update UI
+    window.addEventListener('refreshAppointments', fetchAppointments);
+    return () => window.removeEventListener('refreshAppointments', fetchAppointments);
   }, []);
 
   const fetchAppointments = async () => {

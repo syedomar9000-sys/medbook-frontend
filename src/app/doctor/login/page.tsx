@@ -26,6 +26,9 @@ export default function DoctorLoginPage() {
       await login(email, password);
       const user = JSON.parse(localStorage.getItem('user') || '{}');
       if (user.role !== 'doctor') {
+        localStorage.removeItem('token');
+        localStorage.removeItem('refreshToken');
+        localStorage.removeItem('user');
         setError('This login is for doctors only. Please use the patient login.');
         return;
       }

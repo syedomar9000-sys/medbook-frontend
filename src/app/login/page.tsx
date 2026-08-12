@@ -26,11 +26,14 @@ export default function LoginPage() {
       await login(email, password);
       // Check user role and redirect accordingly
       const user = JSON.parse(localStorage.getItem('user') || '{}');
-      if (user.role === 'doctor') {
-        router.push('/doctor/profile');
-      } else {
-        router.push('/search');
+      if (user.role !== 'patient') {
+        localStorage.removeItem('token');
+        localStorage.removeItem('refreshToken');
+        localStorage.removeItem('user');
+        setError('This login is for patients only. Please use the doctor login.');
+        return;
       }
+      router.push('/search');
     } catch (err: unknown) {
       const error = err as { response?: { data?: { detail?: string } } };
       setError(error.response?.data?.detail || 'Invalid email or password');

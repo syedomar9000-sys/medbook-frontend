@@ -14,7 +14,8 @@ export function NotificationProvider({ children }: { children: React.ReactNode }
     if (isAuthenticated) {
       const token = localStorage.getItem('access_token');
       const apiUrl = process.env.NEXT_PUBLIC_API_URL || 'http://localhost:8000/api';
-      const wsUrl = apiUrl.replace('http', 'ws').replace('/api', '') + '/ws/notifications/?token=' + token;
+      let wsUrl = apiUrl.replace('https://', 'wss://').replace('http://', 'ws://');
+      wsUrl = wsUrl.replace('/api', '') + '/ws/notifications/?token=' + token;
 
       ws.current = new WebSocket(wsUrl);
 

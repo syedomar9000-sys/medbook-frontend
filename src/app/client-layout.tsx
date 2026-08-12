@@ -6,12 +6,14 @@
 'use client';
 
 import { AuthProvider } from '@/lib/auth';
+import { NotificationProvider } from '@/context/NotificationContext';
 import Navbar from '@/components/Navbar';
 
 export default function ClientLayout({ children }: { children: React.ReactNode }) {
   return (
     <AuthProvider>
-      <Navbar />
+      <NotificationProvider>
+        <Navbar />
       <main className="min-h-screen">{children}</main>
 
       {/* Footer */}
@@ -32,6 +34,7 @@ export default function ClientLayout({ children }: { children: React.ReactNode }
           </div>
         </div>
       </footer>
+      </NotificationProvider>
     </AuthProvider>
   );
 }

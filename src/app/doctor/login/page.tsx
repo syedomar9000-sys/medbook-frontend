@@ -10,7 +10,7 @@ import { useRouter } from 'next/navigation';
 import Link from 'next/link';
 
 export default function DoctorLoginPage() {
-  const { login } = useAuth();
+  const { login, logout } = useAuth();
   const router = useRouter();
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
@@ -26,9 +26,7 @@ export default function DoctorLoginPage() {
       await login(email, password);
       const user = JSON.parse(localStorage.getItem('user') || '{}');
       if (user.role !== 'doctor') {
-        localStorage.removeItem('token');
-        localStorage.removeItem('refreshToken');
-        localStorage.removeItem('user');
+        await logout();
         setError('This login is for doctors only. Please use the patient login.');
         return;
       }
